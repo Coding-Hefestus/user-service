@@ -30,4 +30,9 @@ public class UserController {
     public ResponseEntity<User> editUser(@RequestBody User user){
         return ResponseEntity.ok(userService.editUser(user));
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestBody User user){
+        return ResponseEntity.ok(userService.createUser(user));
+    }
 }
