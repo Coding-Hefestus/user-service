@@ -25,4 +25,9 @@ public class UserController {
     public ResponseEntity<User> findById(@PathVariable("id") Integer id){
         return ResponseEntity.ok(userService.findByUserId(id));
     }
+
+    @PostMapping("/user")
+    public ResponseEntity<User> editUser(@RequestBody User user){
+        return ResponseEntity.ok(userService.editUser(user));
+    }
 }
