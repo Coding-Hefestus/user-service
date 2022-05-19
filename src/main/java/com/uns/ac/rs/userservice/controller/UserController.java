@@ -1,6 +1,7 @@
 package com.uns.ac.rs.userservice.controller;
 
 import com.uns.ac.rs.userservice.authorization.Authorizable;
+import com.uns.ac.rs.userservice.model.AuthenticationResponse;
 import com.uns.ac.rs.userservice.model.LoginRequest;
 import com.uns.ac.rs.userservice.model.LoginResponse;
 import com.uns.ac.rs.userservice.model.User;
@@ -29,32 +30,30 @@ public class UserController {
 
     @Authorizable(roles = {"USER", "ADMIN"})
     @GetMapping("/user/{id}")
-    public ResponseEntity<User> findById(@PathVariable("id") Integer id){
+    public ResponseEntity<User> findById(ServerHttpRequest request, @PathVariable("id") Integer id){
         return ResponseEntity.ok(userService.findByUserId(id));
     }
 
     @Authorizable(roles = {"USER", "ADMIN"})
     @PostMapping("/user")
-    public ResponseEntity<User> editUser(@RequestBody User user){
+    public ResponseEntity<User> editUser(ServerHttpRequest request, @RequestBody User user){
         return ResponseEntity.ok(userService.editUser(user));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user){
+    public ResponseEntity<User> registerUser(ServerHttpRequest request, @RequestBody User user){
         return ResponseEntity.ok(userService.createUser(user));
     }
 
     @GetMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest){
-       // System.out.println(serverHttpRequest.getId()); //(ServerHttpRequest request
+    public ResponseEntity<LoginResponse> login(ServerHttpRequest request, @RequestBody LoginRequest loginRequest){
         return ResponseEntity.ok(userService.login(loginRequest));
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<?> test(ServerHttpRequest request){
-        System.out.println(request.getId()); //(ServerHttpRequest request
-        List<String> authorization = request.getHeaders().get("Authorization");
-        System.out.println(authorization);
-        return ResponseEntity.ok().build();
+    @GetMapping("/authenticated/{jwt}")
+    public ResponseEntity<AuthenticationResponse> authenticate(@PathVariable("jwt") String jwt){
+        return ResponseEntity.ok(userService.authenticate(jwt));
     }
+
+
 }

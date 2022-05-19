@@ -1,5 +1,6 @@
 package com.uns.ac.rs.userservice.jwt;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
@@ -15,7 +16,7 @@ public class JwtValidator {
     private long expiration;
 
     public boolean isValid(String token) {
-
+        if (StringUtils.isBlank(token)) return false;
         try {
             Claims body = Jwts.parser()
                     .setSigningKey(secret)
