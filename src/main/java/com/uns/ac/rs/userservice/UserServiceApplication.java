@@ -1,7 +1,10 @@
 package com.uns.ac.rs.userservice;
 
+import com.uns.ac.rs.userservice.filter.JwtFilter;
+import com.uns.ac.rs.userservice.jwt.JwtValidator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
@@ -26,5 +29,14 @@ public class UserServiceApplication {
 			}
 		};
 	}
+
+	@Bean
+	public FilterRegistrationBean<JwtFilter> jwtFilter(JwtValidator jwtValidator) {
+		final FilterRegistrationBean<JwtFilter> registrationBean = new FilterRegistrationBean<>();
+		registrationBean.setFilter(new JwtFilter(jwtValidator));
+		registrationBean.addUrlPatterns("/api/user-service/**");
+		return registrationBean;
+	}
+
 
 }

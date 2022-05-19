@@ -8,6 +8,7 @@ spring:
     properties:
       database-platform: com.uns.ac.rs.userservice.configuration.ImprovedMySQLDialect
       hibernate:
+        enable_lazy_load_no_trans: true
         dialect: com.uns.ac.rs.userservice.configuration.ImprovedMySQLDialect
         #storage_engine: innodb
         connection:
@@ -15,6 +16,7 @@ spring:
         hbm2ddl:
           import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
     hibernate:
+
       naming_stratgey: org.hibernate.cfg.EJB3NamingStrategy
       #ddl-auto: create
       #ddl-auto: update
@@ -33,3 +35,8 @@ spring:
     name: user-service
   main:
     web-application-type: reactive
+
+
+jwt:
+  expiration: 7200000
+  secret: tennis-scheduler
