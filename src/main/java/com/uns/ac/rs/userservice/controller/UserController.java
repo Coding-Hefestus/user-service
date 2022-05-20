@@ -45,12 +45,12 @@ public class UserController {
         return ResponseEntity.ok(userService.createUser(user));
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(ServerHttpRequest request, @RequestBody LoginRequest loginRequest){
         return ResponseEntity.ok(userService.login(loginRequest));
     }
 
-    @GetMapping("/authenticated/{jwt}")
+    @GetMapping("/user/authenticated/{jwt}")
     public ResponseEntity<AuthenticationResponse> authenticate(@PathVariable("jwt") String jwt){
         return ResponseEntity.ok(userService.authenticate(jwt));
     }

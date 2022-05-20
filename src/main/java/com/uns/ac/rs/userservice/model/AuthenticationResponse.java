@@ -9,4 +9,5 @@ public class AuthenticationResponse {
 
     private Boolean authenticated;
     private String authenticationResponse;
+    private String role;
 }

@@ -52,9 +52,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public AuthenticationResponse authenticate(String jwt) {
-        boolean valid = jwtValidator.isValid(jwt);
         AuthenticationResponse.AuthenticationResponseBuilder builder = AuthenticationResponse.builder();
-        return valid ? builder.authenticated(true).authenticationResponse("Authenticated").build() :
-                       builder.authenticated(false).authenticationResponse("Not authenticated").build();
+        boolean valid = jwtValidator.isValid(jwt);
+        if (valid){
+            int userId = jwtValidator.extractUserId(jwt);
+            User u = userRepository.getById(userId);
+            if (u == null) return  builder.authenticated(false).authenticationResponse("Not authenticated").build();
+            return builder.authenticated(true).authenticationResponse("Authenticated").role(u.getRole()).build();
+        }
+        return builder.authenticated(false).authenticationResponse("Not authenticated").build();
+
     }
 }
